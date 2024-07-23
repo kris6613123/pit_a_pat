@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pitapat.pitapatPoint.dao.CustomerDAO">
+
+    <sql id="select">
+        select
+            CUSTOMER,
+            NAME,
+            TEL,
+            POINT,
+            REGDTTM,
+            MEMO
+        from
+            CUSTOMER
+    </sql>
+
+    <insert id="add" parameterType="com.pitapat.pitapatPoint.vo.CustomerVO">
+        insert into
+            CUSTOMER( CUSTOMER, NAME, TEL, POINT, REGDTTM, MEMO )
+        values
+            ( #{customer}, #{name}, #{tel}, #{point}, now(), #{memo})
+    </insert>
+
+    <update id="addPoint" parameterType="com.pitapat.pitapatPoint.vo.TransactionVO">
+        UPDATE
+            CUSTOMER
+        SET
+            POINT = POINT + #{point}
+        WHERE
+            CUSTOMER = #{customer}
+    </update>
+
+    <update id="subPoint" parameterType="com.pitapat.pitapatPoint.vo.TransactionVO">
+        UPDATE
+            CUSTOMER
+        SET
+            POINT = POINT - #{point}
+        WHERE
+            CUSTOMER = #{customer}
+    </update>
+
+<!--    <select id="getCount" resultType="int">-->
+<!--        SELECT-->
+<!--        COUNT(*)-->
+<!--        FROM-->
+<!--        USER-->
+<!--        <if test="keyword != null">-->
+<!--            WHERE ID LIKE CONCAT('%', #{keyword}, '%')-->
+<!--        </if>-->
+<!--    </select>-->
+
+    <select id="getItemById" resultType="com.pitapat.pitapatPoint.vo.CustomerVO">
+        <include refid="select"/>
+        WHERE
+        CUSTOMER = #{customer}
+    </select>
+
+<!--    <select id="getList" resultType="com.pitapat.pitapatPoint.vo.CustomerVO">-->
+<!--        <include refid="select"/>-->
+<!--    </select>-->
+
+    <select id="getSearchList" resultType="com.pitapat.pitapatPoint.vo.CustomerVO">
+        <include refid="select"/>
+        WHERE
+        <if test="keyword != null">
+            NAME LIKE CONCAT('%', #{keyword}, '%')
+            OR
+            TEL LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+    </select>
+
+    <select id="getPagingList" resultType="com.pitapat.pitapatPoint.vo.CustomerVO">
+        <include refid="select"/>
+        WHERE
+        <if test="keyword != null">
+            ID LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        LIMIT #{pagenum}, #{contentnum}
+    </select>
+
+</mapper>
+

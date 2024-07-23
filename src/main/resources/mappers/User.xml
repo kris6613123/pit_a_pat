@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pitapat.pitapatPoint.dao.UserDAO">
+
+    <sql id="select">
+        select
+            USER,
+            ID,
+            PWD,
+            NAME
+        from
+            USER
+    </sql>
+
+    <insert id="add" parameterType="com.pitapat.pitapatPoint.vo.UserVO">
+        insert into
+            USER( ID, PWD, NAME)
+        values
+            ( #{id}, #{pwd}, #{name})
+    </insert>
+
+    <update id="del" parameterType="com.pitapat.pitapatPoint.vo.UserVO">
+        UPDATE
+            USER
+        SET
+            DEL_YN = 'Y'
+        WHERE
+            USER = #{user}
+    </update>
+
+    <select id="getCount" resultType="int">
+        SELECT
+        COUNT(*)
+        FROM
+        USER
+        <if test="keyword != null">
+            WHERE ID LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+    </select>
+
+    <select id="getItemById" resultType="com.pitapat.pitapatPoint.vo.UserVO">
+        <include refid="select"/>
+        WHERE
+            ID = #{id}
+    </select>
+
+    <select id="getList" resultType="com.pitapat.pitapatPoint.vo.UserVO">
+        <include refid="select"/>
+    </select>
+
+    <select id="getAllList" resultType="com.pitapat.pitapatPoint.vo.UserVO">
+        <include refid="select"/>
+    </select>
+
+    <select id="getPagingList" resultType="com.pitapat.pitapatPoint.vo.UserVO">
+        <include refid="select"/>
+        WHERE
+        <if test="keyword != null">
+            ID LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        LIMIT #{pagenum}, #{contentnum}
+    </select>
+
+</mapper>
+
