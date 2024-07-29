@@ -5,16 +5,17 @@
     <sql id="select">
         select
             TYPE,
-            RATE
+            RATE,
+            RESERVE
         from
             TRANS_TYPE
     </sql>
 
     <insert id="add" parameterType="com.pitapat.pitapatPoint.vo.TransTypeVO">
         insert into
-            TRANS_TYPE( TYPE, RATE )
+            TRANS_TYPE( TYPE, RATE, RESERVE )
         values
-            ( #{type}, #{rate})
+            ( #{type}, #{rate}, #{reserve})
     </insert>
 
     <delete id="delAll" parameterType="com.pitapat.pitapatPoint.vo.TransTypeVO">

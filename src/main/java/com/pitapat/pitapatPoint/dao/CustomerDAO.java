@@ -11,6 +11,8 @@ import java.util.List;
 public interface CustomerDAO {
     void add( CustomerVO vo );
 
+    void mod( CustomerVO vo );
+
     void addPoint( TransactionVO vo );
 
     void subPoint( TransactionVO vo );

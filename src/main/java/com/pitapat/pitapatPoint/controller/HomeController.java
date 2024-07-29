@@ -17,21 +17,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping( method = RequestMethod.GET )
-public class HomeController {
+public class HomeController extends CtrlBase {
 
     private final UserService userService;
     private final TransTypeService transTypeService;
 
     @RequestMapping( value = "/login" )
     public String login (Model model) {
-//        UserVO vo = new UserVO();
-//        vo.setId("master");
-//        vo.setPwd("ch2020");
-//        userService.add(vo);
         if( !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser") ) {
             return "redirect:/";
         }
-//        model.addAttribute( "user", new UserVO() );
         return "login";
     }
 

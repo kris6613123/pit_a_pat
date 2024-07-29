@@ -1,28 +1,27 @@
 package com.pitapat.pitapatPoint.controller;
 
 import com.pitapat.pitapatPoint.service.CustomerService;
-import com.pitapat.pitapatPoint.service.UserService;
+import com.pitapat.pitapatPoint.service.PatService;
 import com.pitapat.pitapatPoint.vo.CustomerVO;
+import com.pitapat.pitapatPoint.vo.PatVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping( method = RequestMethod.GET )
-public class CustomerController {
+public class CustomerController extends CtrlBase {
 
     private final CustomerService customerService;
+    private final PatService patService;
 
 //    @RequestMapping( value = { "/list" } )
 //    public String list (Model model, @RequestParam(defaultValue = "1", required = false) Integer pagenum, @RequestParam(defaultValue = "10", required = false) Integer contentnum, @RequestParam(value="customer", required = false ) String keyowrd ) {
@@ -30,18 +29,34 @@ public class CustomerController {
 //        return "customer/list";
 //    }
 //
-//    @RequestMapping( value = { "/mod", "/{id}/mod" } )
-//    public String mod( Model model, @PathVariable( value = "id", required = false ) Integer id ) {
-//        CustomerVO customer = new CustomerVO();
-//        List<BranchVO> branchList = branchService.getList();
-//        if ( id != null ) {
-//            customer = customerService.getItem( new CustomerVO( id ) );
-//        }
-//        model.addAttribute( "customer", customer );
-//        model.addAttribute( "branchList", branchList );
-//
-//        return "customer/mod";
-//    }
+    @RequestMapping( value = {"/customer/mod", "/customer/{id}/mod"} )
+    public String mod( Model model, @PathVariable( value = "id", required = false ) Integer id  ) {
+        if (id == null) {
+            model.addAttribute( "customer", new CustomerVO() );
+        }
+        else {
+            CustomerVO customer = customerService.getItemById(id);
+            List<PatVO> patList = patService.getListByCustomerId(id);
+            model.addAttribute("customer", customer);
+            model.addAttribute("patList", patList);
+        }
+        model.addAttribute("id", id);
+        return "customerMod";
+    }
+
+    @ResponseBody
+    @RequestMapping( value = "/customer/mod/p", method = RequestMethod.POST)
+    public ResponseEntity<String> modP( @RequestBody CustomerVO vo ) {
+        if ( vo.getCustomer() == null ) {
+            customerService.add(vo);
+        }
+        else {
+            customerService.mod(vo);
+        }
+        String redirectUrl =  "/customer/" + vo.getCustomer() + "/mod";
+        return new ResponseEntity<>( redirectUrl, HttpStatus.OK );
+    }
+
 
 //
 //    @RequestMapping( value = {"/{id}/del"}, method = RequestMethod.POST )

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping( method = RequestMethod.GET )
-public class TransactionController {
+public class TransactionController extends CtrlBase{
 
     private final TransactionService transactionService;
     private final TransTypeService transTypeService;

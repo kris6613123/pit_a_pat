@@ -41,16 +41,6 @@
                 <div class="sidebar-brand-text mx-3">애견카페 관리</div>
             </a>
 
-<!--            &lt;!&ndash; Divider &ndash;&gt;-->
-<!--            <hr class="sidebar-divider my-0">-->
-
-<!--            &lt;!&ndash; Nav Item - Dashboard &ndash;&gt;-->
-<!--            <li class="nav-item active">-->
-<!--                <a class="nav-link" href="/">-->
-<!--                    <i class="fas fa-fw fa-tachometer-alt"></i>-->
-<!--                    <span>메인</span></a>-->
-<!--            </li>-->
-
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -69,7 +59,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">고객 데이터:</h6>
-                        <a class="collapse-item" href="/customer/add">등록</a>
+                        <a class="collapse-item" href="/customer/mod">등록</a>
                         <a class="collapse-item" href="/customer/list">목록</a>
                     </div>
                 </div>
@@ -105,27 +95,6 @@
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>예약 관리</span></a>
             </li>
-
-<!--            &lt;!&ndash; Nav Item - Pages Collapse Menu &ndash;&gt;-->
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"-->
-<!--                    aria-expanded="true" aria-controls="collapsePages">-->
-<!--                    <i class="fas fa-fw fa-folder"></i>-->
-<!--                    <span>Pages</span>-->
-<!--                </a>-->
-<!--                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">-->
-<!--                    <div class="bg-white py-2 collapse-inner rounded">-->
-<!--                        <h6 class="collapse-header">Login Screens:</h6>-->
-<!--                        <a class="collapse-item" href="login.html">Login</a>-->
-<!--                        <a class="collapse-item" href="register.html">Register</a>-->
-<!--                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>-->
-<!--                        <div class="collapse-divider"></div>-->
-<!--                        <h6 class="collapse-header">Other Pages:</h6>-->
-<!--                        <a class="collapse-item" href="404.html">404 Page</a>-->
-<!--                        <a class="collapse-item" href="blank.html">Blank Page</a>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </li>-->
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
@@ -203,7 +172,7 @@
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${name}" ></span>
                                         <img class="img-profile rounded-circle"
-                                             src="img/undraw_profile.svg">
+                                             src="/img/undraw_profile.svg">
                                     </a>
                                     <!-- Dropdown - User Information -->
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -242,7 +211,7 @@
                         </div>
 
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-3 col-md-6 mb-4" data-toggle="modal" data-target="#pointSubModal">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -260,7 +229,7 @@
                         </div>
 
                         <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-3 col-md-6 mb-4" data-toggle="modal" data-target="#reservationModal">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -559,8 +528,8 @@
     <!-- 적립 Modal-->
     <div class="modal fade" id="pointAddModal" tabindex="-1" role="dialog" aria-labelledby="pointAddModalLabel"
          aria-hidden="true">
-        <div style="max-width: 800px;" class="modal-dialog" role="document">
-            <div class="modal-content" style="max-height: 700px;">
+        <div style="max-width: 600px; min-height: 300px" class="modal-dialog" role="document">
+            <div class="modal-content" style="max-height: 700px; min-height: 300px">
                 <div class="modal-header">
                     <h5 class="modal-title" id="pointAddModalLabel">적립창</h5>
                     <button class="close btn-cancel1" type="button" data-dismiss="modal" aria-label="Close">
@@ -568,14 +537,14 @@
                     </button>
                 </div>
                 <div style="display: flex" class="modal-body">
-                    <div id="modal-body1" class="modal-body">
+                    <div id="modal-body1_1" class="modal-info">
                         <div>
                             <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                                 <div style="background-color: white;" class="input-group">
-                                    <input type="text" id="keyword" name="name" class="form-control border-0 small" placeholder="Search for..."
+                                    <input type="text" id="keyword1" name="name" class="form-control border-0 small" placeholder="Search for..."
                                            aria-label="Search" aria-describedby="basic-addon2">
                                     <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button" id="btn_findCustomer">
+                                        <button class="btn btn-primary" type="button" id="btn_findCustomer1">
                                             <i class="fas fa-search fa-sm"></i>
                                         </button>
                                     </div>
@@ -583,40 +552,40 @@
                             </form>
                         </div>
                         <div class="li_scroll">
-                            <ul id="u_customerList" class="list-group list-group-flush">
+                            <ul id="customerList1" class="list-group list-group-flush">
 
                             </ul>
                         </div>
                     </div>
-                    <div id="modal-body2" hidden class="modal-body">
+                    <div id="modal-body1_2" hidden class="modal-info">
                         <form action='/transaction/mod' id="f-add" method="post">
-                            <input type="hidden" id="customer" name="customer">
-                            <input type="hidden" id="action" name="action" value="+">
+                            <input type="hidden" id="customer1" name="customer">
+                            <input type="hidden" id="action1" name="action" value="+">
                             <div class="form-group">
-                                <label for="name">성함</label>
-                                <input type="text" class="form-control" id="name" readonly>
+                                <label for="name1">성함</label>
+                                <input type="text" class="form-control" id="name1" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="type">서비스 종류</label>
-                                <select class="form-control" id="type" name="type">
+                                <label for="type1">서비스 종류</label>
+                                <select class="form-control" id="type1" name="type">
 
                                     <option th:each="transType : ${transTypeList}" th:text="${transType.type}" th:value="${transType.type}"></option>
                                 </select>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <button id="dropdownButton" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">가격</button>
+                                    <button id="dropdownButton1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">가격</button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#" onclick="updateBtnText('가격')">Price</a>
+                                        <a class="dropdown-item" href="#" onclick="updateBtnText('포인트')">포인트</a>
                                         <div role="separator" class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#" onclick="updateBtnText('포인트')">Point</a>
+                                        <a class="dropdown-item" href="#" onclick="updateBtnText('가격')">가격</a>
                                     </div>
                                 </div>
-                                <input type="number" name="price" class="form-control i_variable_p" aria-label="Text input with dropdown button">
+                                <input type="number" name="point" class="form-control i_variable_p" aria-label="Text input with dropdown button">
                             </div>
                             <div class="form-group">
-                                <label for="memo">메모사항</label>
-                                <textarea class="form-control" id="memo" rows="3"></textarea>
+                                <label for="memo1">메모사항</label>
+                                <textarea class="form-control" id="memo1" rows="3"></textarea>
                             </div>
                         </form>
                     </div>
@@ -624,6 +593,150 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary btn-cancel1" type="button" data-dismiss="modal">Cancel</button>
                     <button class="btnCard1 btn btn-primary" type="button" >적립</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="pointSubModal" tabindex="-1" role="dialog" aria-labelledby="pointAddModalLabel"
+         aria-hidden="true">
+        <div style="max-width: 600px; min-height: 300px" class="modal-dialog" role="document">
+            <div class="modal-content" style="max-height: 700px; min-height: 300px">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pointSubModalLabel">차감창</h5>
+                    <button class="close btn-cancel1" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div style="display: flex" class="modal-body">
+                    <div id="modal-body2_1" class="modal-info">
+                        <div>
+                            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                <div style="background-color: white;" class="input-group">
+                                    <input type="text" id="keyword2" name="name" class="form-control border-0 small" placeholder="Search for..."
+                                           aria-label="Search" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button" id="btn_findCustomer2">
+                                            <i class="fas fa-search fa-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="li_scroll">
+                            <ul id="customerList2" class="list-group list-group-flush">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="modal-body2_2" hidden class="modal-info">
+                        <form action='/transaction/mod' id="f-sub" method="post">
+                            <input type="hidden" id="customer2" name="customer">
+                            <input type="hidden" id="action2" name="action" value="-">
+                            <div class="form-group">
+                                <label for="name2">성함</label>
+                                <input type="text" class="form-control" id="name2" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="type2">서비스 종류</label>
+                                <select class="form-control" id="type2" name="type">
+
+                                    <option th:each="transType : ${transTypeList}" th:text="${transType.type}" th:value="${transType.type}"></option>
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <button id="dropdownButton2" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">포인트</button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#" onclick="updateBtnText('포인트')">포인트</a>
+                                        <div role="separator" class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#" onclick="updateBtnText('가격')">가격</a>
+                                    </div>
+                                </div>
+                                <input type="number" name="point" class="form-control i_variable_p" aria-label="Text input with dropdown button">
+                            </div>
+                            <div class="form-group">
+                                <label for="memo2">메모사항</label>
+                                <textarea class="form-control" id="memo2" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary btn-cancel2" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btnCard2 btn btn-primary" type="button" >차감</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="pointAddModalLabel"
+         aria-hidden="true">
+        <div style="max-width: 600px; min-height: 300px" class="modal-dialog" role="document">
+            <div class="modal-content" style="max-height: 700px; min-height: 300px">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reservationModalLabel">예약창</h5>
+                    <button class="close btn-cancel1" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div style="display: flex" class="modal-body">
+                    <div id="modal-body3_1" class="modal-info">
+                        <div>
+                            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                <div style="background-color: white;" class="input-group">
+                                    <input type="text" id="keyword3" name="name" class="form-control border-0 small" placeholder="Search for..."
+                                           aria-label="Search" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button" id="btn_findCustomer3">
+                                            <i class="fas fa-search fa-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="li_scroll">
+                            <ul id="customerList3" class="list-group list-group-flush">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="modal-body3_2" hidden class="modal-info">
+                        <form action='/transaction/mod' id="f-reserve" method="post">
+                            <input type="hidden" id="customer3" name="customer">
+                            <input type="hidden" id="action3" name="action" value="-">
+                            <div class="form-group">
+                                <label for="name3">성함</label>
+                                <input type="text" class="form-control" id="name3" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="type3">서비스 종류</label>
+                                <select class="form-control" id="type3" name="type">
+
+                                    <option th:each="transType : ${transTypeList}" th:if="${transType.reserve eq 'Y'}" th:text="${transType.type}" th:value="${transType.type}"></option>
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <button id="dropdownButton3" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">포인트</button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#" onclick="updateBtnText('포인트')">포인트</a>
+                                        <div role="separator" class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#" onclick="updateBtnText('가격')">가격</a>
+                                    </div>
+                                </div>
+                                <input type="number" name="price" class="form-control i_variable_p" aria-label="Text input with dropdown button">
+                            </div>
+                            <div class="form-group">
+                                <label for="memo3">메모사항</label>
+                                <textarea class="form-control" id="memo3" rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary btn-cancel3" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btnCard3 btn btn-primary" type="button" >예약</button>
                 </div>
             </div>
         </div>

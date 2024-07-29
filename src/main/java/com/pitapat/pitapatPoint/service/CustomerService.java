@@ -23,6 +23,11 @@ public class CustomerService {
     }
 
     @Transactional
+    public void mod( CustomerVO vo ) {
+        customerDAO.mod(vo);
+    }
+
+    @Transactional
     public void addPoint( TransactionVO vo ) {
         customerDAO.addPoint( vo );
     }

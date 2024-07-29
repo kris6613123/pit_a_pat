@@ -14,12 +14,21 @@
             CUSTOMER
     </sql>
 
-    <insert id="add" parameterType="com.pitapat.pitapatPoint.vo.CustomerVO">
+    <insert id="add" useGeneratedKeys="true" keyProperty="customer" parameterType="com.pitapat.pitapatPoint.vo.CustomerVO">
         insert into
             CUSTOMER( CUSTOMER, NAME, TEL, POINT, REGDTTM, MEMO )
         values
-            ( #{customer}, #{name}, #{tel}, #{point}, now(), #{memo})
+            ( #{customer}, #{name}, #{tel}, 0, now(), #{memo})
     </insert>
+
+    <update id="mod" parameterType="com.pitapat.pitapatPoint.vo.CustomerVO">
+        UPDATE
+            CUSTOMER
+        SET
+            NAME = #{name}, TEL = #{tel}, MEMO = #{memo}
+        WHERE
+            CUSTOMER = #{customer}
+    </update>
 
     <update id="addPoint" parameterType="com.pitapat.pitapatPoint.vo.TransactionVO">
         UPDATE
