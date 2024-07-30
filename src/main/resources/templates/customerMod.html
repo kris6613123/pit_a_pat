@@ -17,7 +17,47 @@
 
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/custom/css/index.css" rel="stylesheet">
+    <style>
+        .dotted-card {
+            border: 2px dashed #ccc;
+            background-color: #ffffff;
+            text-align: center;
+        }
+        .dotted-card .card-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 150px; /* Adjust height as needed */
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        img {
+            border-radius: 50%;
+            border: 2px solid #ddd;
+        }
+    </style>
+
+    <script src="../static/js/sb-admin-2.js"></script>
 </head>
 
 <body id="page-top">
@@ -55,7 +95,7 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">고객 데이터:</h6>
-                    <a class="collapse-item" href="/customer/add">등록</a>
+                    <a class="collapse-item" href="/customer/mod">등록</a>
                     <a class="collapse-item" href="/customer/list">목록</a>
                 </div>
             </div>
@@ -128,6 +168,7 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
+
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h4 class="h3 mb-0 text-gray-800"></h4>
@@ -186,8 +227,72 @@
                 </div>
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+                <div class="container-sm">
+                    <div class="row">
+                        <div class="col-6">
+                            <h1 class="h3 mb-4 text-gray-800">고객 정보</h1>
+                        </div>
+                        <div class="col-6">
+                            <h1 class="h3 mb-4 text-gray-800">반려동물 정보</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <form id="f-customer">
+                                <input type="hidden" id="customer" name="customer" th:value="${id}">
+                                <div class="mb-3">
+                                    <label class="form-label">이름</label>
+                                    <input type="text" name="name" th:value="${customer.name}" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">전화번호</label>
+                                    <input type="text" name="tel" th:value="${customer.tel}"class="form-control">
+                                </div>
 
+                                <div class="mb-3">
+                                    <label class="form-label">메모사항</label>
+                                    <textarea name="memo" class="form-control" th:value="${customer.memo}"rows="3"></textarea>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="col-4">
+                            <div th:each="pat : ${patList}" class="card mb-3" style="max-width: 540px;">
+                                <div class="card-header">
+                                    <strong th:text="${pat.species}"></strong>
+                                </div>
+                                <div class="row g-0">
+                                    <div class="col-md-4 d-flex justify-content-center align-items-center p-3">
+                                        <img src="..." class="img-fluid rounded-start" alt="..." style="max-width: 100px;">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title d-flex align-items-center mb-3">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FF69B4" class="bi bi-gender-female me-2" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
+                                                </svg>
+                                                <span th:inline="text">[[${pat.name}]]</span>
+                                            </h5>
+                                            <p class="card-text mb-1" th:text="'종: ' + ${pat.breed}"></p>
+                                            <p class="card-text mb-0"><small class="text-muted" th:text="'메모: ' + ${pat.memo}"></small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="card mb-3 dotted-card" style="max-width: 540px;" data-toggle="modal" data-target="#patAddModal">
+                                <div class="card-body">
+                                    <h5 class="card-title">+</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <button id="btn_customer" style="display: flex; margin: auto;" type="button" class="btn btn-primary">등록</button>
+                    </div>
+                </div>
             </div>
             <!-- /.container-fluid -->
 
@@ -224,7 +329,69 @@
         </div>
     </div>
 </div>
+<!--동물 등록 modal-->
+<div class="modal fade" id="patAddModal" tabindex="-1" role="dialog" aria-labelledby="patAddModalLabel"
+     aria-hidden="true">
+    <div style="max-width: 600px; min-height: 300px" class="modal-dialog" role="document">
+        <div class="modal-content" style="max-height: 700px; min-height: 300px">
+            <div class="modal-header">
+                <h5 class="modal-title" id="patAddModalLabel">입력창</h5>
+                <button class="close btn-cancel1" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div style="display: flex" class="modal-body">
+                <div class="modal-info">
+                    <form id="f-add">
 
+                        <div class="form-group">
+                            <label>종류</label>
+                            <select class="form-control" name="species">
+                                <option value="강아지">강아지</option>
+                                <option value="고양이">고양이</option>
+                                <option value="기타">기타</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">이름</label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="breed">종</label>
+                            <input type="text" class="form-control" id="breed" name="breed">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="M">
+                                <label class="form-check-label" for="inlineRadio1">남</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="F">
+                                <label class="form-check-label" for="inlineRadio2">여</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="file" id="formFile">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="memo">메모</label>
+                            <textarea class="form-control" id="memo" name="memo" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-cancel" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btnCard btn btn-primary" type="button" >등록</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- Bootstrap core JavaScript-->
@@ -236,6 +403,9 @@
 
 <!-- Custom scripts for all pages-->
 <script src="/js/sb-admin-2.min.js"></script>
+
+<!--custom-->
+<script src="/custom/js/customer.js"></script>
 
 </body>
 
