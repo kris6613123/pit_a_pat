@@ -10,5 +10,6 @@ public interface PatDAO {
 
     void add(PatVO vo);
 
+
     List<PatVO> getListByCustomerId(Integer customer);
 }

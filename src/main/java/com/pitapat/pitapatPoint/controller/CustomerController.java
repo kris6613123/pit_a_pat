@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -44,14 +45,24 @@ public class CustomerController extends CtrlBase {
         return "customerMod";
     }
 
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping( value = "/customer/mod/p", method = RequestMethod.POST)
-    public ResponseEntity<String> modP( @RequestBody CustomerVO vo ) {
+    public ResponseEntity<String> modP( @RequestPart( "vo" ) CustomerVO vo, @RequestPart( "patList" )  List<PatVO> patList ) {
+//        @RequestPart( "vo" ) BranchVO vo, @RequestPart( value = "formFile", required = false ) MultipartFile file
+        log.info("customer vo : " + vo);
+        log.info("patList : " + patList);
+
         if ( vo.getCustomer() == null ) {
             customerService.add(vo);
         }
         else {
             customerService.mod(vo);
+        }
+        for ( PatVO pat : patList ) {
+            if ( pat.getPat() == null ) {
+                pat.setCustomer( vo.getCustomer() );
+                patService.add( pat );
+            }
         }
         String redirectUrl =  "/customer/" + vo.getCustomer() + "/mod";
         return new ResponseEntity<>( redirectUrl, HttpStatus.OK );

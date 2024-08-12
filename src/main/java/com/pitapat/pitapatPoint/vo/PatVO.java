@@ -11,4 +11,5 @@ public class PatVO {
     private String breed;
     private String gender;
     private String memo;
+    private Integer file;
 }

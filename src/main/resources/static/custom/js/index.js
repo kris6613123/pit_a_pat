@@ -98,7 +98,8 @@ function findCustomerList(text) {
                 data.forEach(function(customer) {
                     let row = document.createElement('li');
                     row.className = 'list-group-item';
-                    row.textContent = customer.name + '   ( ' + telFormat(customer.tel) + ' )';
+                    row.innerHTML = '<span class="customer-name">' + customer.name + '</span>' + '   ( ' + telFormat(customer.tel) + ' )';
+                    // row.textContent = customer.name + '   ( ' + telFormat(customer.tel) + ' )';
                     row.addEventListener('click', function() {
                         document.getElementById('modal-body' + text + '_1').hidden = true;
                         document.getElementById('modal-body' + text + '_2').hidden = false;

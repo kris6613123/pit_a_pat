@@ -253,23 +253,35 @@
                                     <label class="form-label">메모사항</label>
                                     <textarea name="memo" class="form-control" th:value="${customer.memo}"rows="3"></textarea>
                                 </div>
-
                             </form>
                         </div>
                         <div class="col-4">
-                            <div th:each="pat : ${patList}" class="card mb-3" style="max-width: 540px;">
+
+                            <div th:each="pat : ${patList}" id="cardContainer" class="card mb-3" style="max-width: 540px;">
+                                <div class="pat-info" hidden>
+                                    <input hidden name="pat" th:value="${pat.pat}">
+                                    <input hidden name="name" th:value="${pat.name}">
+                                    <input hidden name="species" th:value="${pat.species}">
+                                    <input hidden name="breed" th:value="${pat.breed}">
+                                    <input hidden name="gender" th:value="${pat.gender}">
+                                    <input hidden name="memo" th:value="${pat.memo}">
+                                    <input hidden name="file" th:value="${pat.file}">
+                                </div>
                                 <div class="card-header">
                                     <strong th:text="${pat.species}"></strong>
                                 </div>
                                 <div class="row g-0">
                                     <div class="col-md-4 d-flex justify-content-center align-items-center p-3">
-                                        <img src="..." class="img-fluid rounded-start" alt="..." style="max-width: 100px;">
+                                        <img th:src="${pat.file != null} ? '/image/' + ${pat.file} : '...'" class="img-fluid rounded-start" alt="..." style="max-width: 100px;">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <h5 class="card-title d-flex align-items-center mb-3">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FF69B4" class="bi bi-gender-female me-2" viewBox="0 0 16 16">
+                                                <svg th:if="${pat.gender == 'F'}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FF69B4" class="bi bi-gender-female me-2" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
+                                                </svg>
+                                                <svg th:if="${pat.gender == 'M'}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#007bff" class="bi bi-gender-male me-2" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M9 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M6 4.5h3.293l-3.147 3.146a.5.5 0 1 0 .708.708L10 5.207V8.5a.5.5 0 0 0 1 0V4h-3.5a.5.5 0 0 0 0 1z"/>
                                                 </svg>
                                                 <span th:inline="text">[[${pat.name}]]</span>
                                             </h5>
@@ -279,7 +291,6 @@
                                     </div>
                                 </div>
                             </div>
-
 
                             <div class="card mb-3 dotted-card" style="max-width: 540px;" data-toggle="modal" data-target="#patAddModal">
                                 <div class="card-body">
@@ -375,7 +386,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <input type="file" id="formFile">
+                            <input type="file" id="formFile" name="formFile">
                         </div>
 
                         <div class="form-group">

@@ -12,7 +12,7 @@ window.onload = function () {
         });
     });
 
-    document.querySelector('.btnCard').addEventListener( 'click', function () {
+    document.querySelector('.btnCard').addEventListener('click', function () {
         makeCard();
     });
 }
@@ -20,12 +20,11 @@ window.onload = function () {
 function customerMod() {
     let form = document.getElementById('f-customer');
     let formData = new FormData(form);
-    console.log(formData);
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
-                alert("등록되었습ㄴ다.");
+                alert("등록되었습니다.");
                 location.href = xhr.responseText;
             } else if (xhr.status === 400) {
                 alert(xhr.responseText);
@@ -36,22 +35,137 @@ function customerMod() {
     for (let [ key, value ] of formData.entries()) {
         obj[key] = value;
     }
+    let patList = [];
+    let pat = {};
+    let cards = document.querySelectorAll('.pat-info');
+    cards.forEach(card => {
+        let ppat = card.querySelector('input[name="pat"]').value;
+        let species = card.querySelector('input[name="species"]').value;
+        let name = card.querySelector('input[name="name"]').value;
+        let breed = card.querySelector('input[name="breed"]').value;
+        let memo = card.querySelector('input[name="memo"]').value;
+        let file = card.querySelector('input[name="file"]').value;
+
+        pat['pat'] = ppat;
+        pat['species'] = species;
+        pat['name'] = name;
+        pat['breed'] = breed;
+        pat['memo'] = memo;
+        pat['file'] = file;
+        patList.push(pat);
+        pat = {};
+    });
+    console.log(patList);
+    console.log(obj);
+    let data = new FormData();
+    data.append( 'vo', new Blob( [ JSON.stringify( obj ) ], { type: 'application/json' } ) );
+    data.append( 'patList', new Blob( [ JSON.stringify( patList ) ], { type: 'application/json' } ) );
     xhr.open('POST', "/customer/mod/p", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(obj));
+    // xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(data);
+
 }
 
 function makeCard() {
     let form = document.getElementById('f-add');
     let formData = new FormData(form);
-    form.reset();
-    let obj= {};
-    for (let [ key, value ] of formData.entries()) {
-        obj[key] = value;
+    let petObj = {};
+    for (let [key, value] of formData.entries()) {
+        petObj[key] = value;
     }
-    console.log(obj);
+    let formFile = document.getElementById('formFile');
+    let imgNum = 0;
+    if (!!formFile.files[0]) {
+        file = formFile.files[0];
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if ( xhr.readyState === XMLHttpRequest.DONE ) {
+                if ( xhr.status === 200 ) {
+                    console.log("이미지 저장완료 : " + xhr.responseText)
+                    imgNum = parseInt(xhr.responseText);
+                    make(petObj, imgNum);
+                }
+                else if( xhr.status === 400 ) {
+                    alert( xhr.responseText );
+                }
+            }
+        };
 
+        xhr.open('POST', '/image/add', true);
 
+        let Data = new FormData();
+        Data.append( 'formFile', file );
+        xhr.send( Data );
+    }
+    else {
+        make(petObj, imgNum);
+    }
+
+    document.querySelector('.btn-cancel').click();
+}
+
+function make(petObj, imgNum) {
+    let img = imgNum === 0 ?
+        '<img src="..." className="img-fluid rounded-start" alt="..." style="max-width: 100px;">' :
+        `<img src="/image/${imgNum}" className="img-fluid rounded-start" alt="..." style="max-width: 100px;">`;
+
+    let genderIcon = petObj.gender === 'M' ?
+        `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#007bff" class="bi bi-gender-male me-2" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M9 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M6 4.5h3.293l-3.147 3.146a.5.5 0 1 0 .708.708L10 5.207V8.5a.5.5 0 0 0 1 0V4h-3.5a.5.5 0 0 0 0 1z"/>
+        </svg>` :
+        `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FF69B4" class="bi bi-gender-female me-2" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
+        </svg>`;
+
+    // Creating a new card element with the captured data
+    let newCard = document.createElement('div');
+    newCard.className = 'card mb-3';
+    newCard.style.maxWidth = '540px';
+    newCard.innerHTML = `
+        <div class="card-header">
+            <strong>${petObj.species}</strong>
+        </div>
+        <div class="row g-0">
+            <div class="col-md-4 d-flex justify-content-center align-items-center p-3">
+                ${img}
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title d-flex align-items-center mb-3">
+                        ${genderIcon}
+                        <span>${petObj.name}</span>
+                    </h5>
+                    <p class="card-text mb-1">종: ${petObj.breed}</p>
+                    <p class="card-text mb-0"><small class="text-muted">메모: ${petObj.memo}</small></p>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Adding the new card to the card container
+    document.getElementById('cardContainer').appendChild(newCard);
+}
+function getImgNum(file) {
+    console.log(file);
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if ( xhr.readyState === XMLHttpRequest.DONE ) {
+            if ( xhr.status === 200 ) {
+                console.log("이미지 저장완료 : " + xhr.responseText)
+                return parseInt(xhr.responseText);
+            }
+            else if( xhr.status === 400 ) {
+                alert( xhr.responseText );
+            }
+        }
+    };
+
+    xhr.open('POST', '/image/add', true);
+
+    let formData = new FormData();
+    formData.append( 'formFile', file );
+    xhr.send( formData );
 }
 
 

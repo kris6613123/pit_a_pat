@@ -528,7 +528,7 @@
     <!-- 적립 Modal-->
     <div class="modal fade" id="pointAddModal" tabindex="-1" role="dialog" aria-labelledby="pointAddModalLabel"
          aria-hidden="true">
-        <div style="max-width: 600px; min-height: 300px" class="modal-dialog" role="document">
+        <div style="max-width: 500px; min-height: 300px" class="modal-dialog" role="document">
             <div class="modal-content" style="max-height: 700px; min-height: 300px">
                 <div class="modal-header">
                     <h5 class="modal-title" id="pointAddModalLabel">적립창</h5>
@@ -538,22 +538,21 @@
                 </div>
                 <div style="display: flex" class="modal-body">
                     <div id="modal-body1_1" class="modal-info">
-                        <div>
-                            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                <div style="background-color: white;" class="input-group">
-                                    <input type="text" id="keyword1" name="name" class="form-control border-0 small" placeholder="Search for..."
-                                           aria-label="Search" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button" id="btn_findCustomer1">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
+                        <form class="navbar-search">
+<!--                            d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 -->
+                            <div class="input-group">
+                                <input type="text" id="keyword1" name="name" class="form-control border-0 small" placeholder="이름, 전화번호로 검색"
+                                       aria-label="Search" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" id="btn_findCustomer1">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                         <div class="li_scroll">
                             <ul id="customerList1" class="list-group list-group-flush">
-
+                                <!-- 리스트 아이템이 여기에 추가됩니다 -->
                             </ul>
                         </div>
                     </div>
@@ -568,13 +567,12 @@
                             <div class="form-group">
                                 <label for="type1">서비스 종류</label>
                                 <select class="form-control" id="type1" name="type">
-
                                     <option th:each="transType : ${transTypeList}" th:text="${transType.type}" th:value="${transType.type}"></option>
                                 </select>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <button id="dropdownButton1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">가격</button>
+                                    <button id="dropdownButton1" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">포인트</button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="#" onclick="updateBtnText('포인트')">포인트</a>
                                         <div role="separator" class="dropdown-divider"></div>
@@ -600,20 +598,20 @@
 
     <div class="modal fade" id="pointSubModal" tabindex="-1" role="dialog" aria-labelledby="pointSubModalLabel"
          aria-hidden="true">
-        <div style="max-width: 600px; min-height: 300px" class="modal-dialog" role="document">
+        <div style="max-width: 500px; min-height: 300px" class="modal-dialog" role="document">
             <div class="modal-content" style="max-height: 700px; min-height: 300px">
                 <div class="modal-header">
                     <h5 class="modal-title" id="pointSubModalLabel">차감창</h5>
-                    <button class="close btn-cancel1" type="button" data-dismiss="modal" aria-label="Close">
+                    <button class="close btn-cancel2" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div style="display: flex" class="modal-body">
                     <div id="modal-body2_1" class="modal-info">
                         <div>
-                            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <form class="navbar-search">
                                 <div style="background-color: white;" class="input-group">
-                                    <input type="text" id="keyword2" name="name" class="form-control border-0 small" placeholder="Search for..."
+                                    <input type="text" id="keyword2" name="name" class="form-control border-0 small" placeholder="이름, 전화번호로 검색"
                                            aria-label="Search" aria-describedby="basic-addon2">
                                     <div class="input-group-append">
                                         <button class="btn btn-primary" type="button" id="btn_findCustomer2">
@@ -672,20 +670,20 @@
 
     <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel"
          aria-hidden="true">
-        <div style="max-width: 600px; min-height: 300px" class="modal-dialog" role="document">
+        <div style="max-width: 500px; min-height: 300px" class="modal-dialog" role="document">
             <div class="modal-content" style="max-height: 700px; min-height: 300px">
                 <div class="modal-header">
                     <h5 class="modal-title" id="reservationModalLabel">예약창</h5>
-                    <button class="close btn-cancel1" type="button" data-dismiss="modal" aria-label="Close">
+                    <button class="close btn-cancel3" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div style="display: flex" class="modal-body">
                     <div id="modal-body3_1" class="modal-info">
                         <div>
-                            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <form class="navbar-search">
                                 <div style="background-color: white;" class="input-group">
-                                    <input type="text" id="keyword3" name="name" class="form-control border-0 small" placeholder="Search for..."
+                                    <input type="text" id="keyword3" name="name" class="form-control border-0 small" placeholder="이름, 전화번호로 검색"
                                            aria-label="Search" aria-describedby="basic-addon2">
                                     <div class="input-group-append">
                                         <button class="btn btn-primary" type="button" id="btn_findCustomer3">

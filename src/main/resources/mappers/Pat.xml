@@ -4,21 +4,23 @@
 
     <sql id="select">
         select
+            PAT,
             CUSTOMER,
             NAME,
             SPECIES,
             BREED,
             GENDER,
-            MEMO
+            MEMO,
+            FILE
         from
             PAT
     </sql>
 
     <insert id="add" parameterType="com.pitapat.pitapatPoint.vo.PatVO">
         insert into
-            PAT( CUSTOMER, NAME, SPECIES, BREED, GENDER, MEMO )
+            PAT( CUSTOMER, NAME, SPECIES, BREED, GENDER, MEMO, FILE )
         values
-            ( #{customer}, #{name}, #{species}, #{breed}, #{gender}, #{memo})
+            ( #{customer}, #{name}, #{species}, #{breed}, #{gender}, #{memo}, ${file})
     </insert>
 
     <select id="getListByCustomerId" resultType="com.pitapat.pitapatPoint.vo.PatVO">
