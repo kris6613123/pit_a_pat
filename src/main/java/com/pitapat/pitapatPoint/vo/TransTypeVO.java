@@ -6,5 +6,8 @@ import lombok.Data;
 public class TransTypeVO {
     private String type;
     private Double rate;
-    private String reserve;
+    private String reserved;
+
+    //none db
+    private Integer num = 0; //이용자 수
 }

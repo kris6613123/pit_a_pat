@@ -12,4 +12,8 @@ public interface TransactionDAO {
 
     List<TransactionVO> getList();
 
+    List<TransactionVO> getAddList();
+
+    List<TransactionVO> getSubList();
+
 }

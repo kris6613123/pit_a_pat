@@ -40,4 +40,8 @@ public class TransTypeService {
     public List<TransTypeVO> getList() {
         return transTypeDAO.getList();
     }
+
+    public List<TransTypeVO> getRList() {
+        return transTypeDAO.getRList();
+    }
 }

@@ -20,6 +20,14 @@ public class TransactionService {
         transactionDAO.add( vo );
     }
 
+    public List<TransactionVO> getAddList() {
+        return transactionDAO.getAddList();
+    }
+
+    public List<TransactionVO> getSubList() {
+        return transactionDAO.getSubList();
+    }
+
     public List<TransactionVO> getList() {
         return transactionDAO.getList();
     }

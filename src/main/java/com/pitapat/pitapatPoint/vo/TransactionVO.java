@@ -16,4 +16,8 @@ public class TransactionVO {
     private String memo;
 
 
+    //none db
+    private String name;
+    private String tel;
+
 }

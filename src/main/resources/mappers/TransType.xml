@@ -6,16 +6,16 @@
         select
             TYPE,
             RATE,
-            RESERVE
+            RESERVED
         from
             TRANS_TYPE
     </sql>
 
     <insert id="add" parameterType="com.pitapat.pitapatPoint.vo.TransTypeVO">
         insert into
-            TRANS_TYPE( TYPE, RATE, RESERVE )
+            TRANS_TYPE( TYPE, RATE, RESERVED)
         values
-            ( #{type}, #{rate}, #{reserve})
+            ( #{type}, #{rate}, #{reserved})
     </insert>
 
     <delete id="delAll" parameterType="com.pitapat.pitapatPoint.vo.TransTypeVO">
@@ -32,6 +32,12 @@
 
     <select id="getList" resultType="com.pitapat.pitapatPoint.vo.TransTypeVO">
         <include refid="select"/>
+    </select>
+
+    <select id="getRList" resultType="com.pitapat.pitapatPoint.vo.TransTypeVO">
+        <include refid="select"/>
+        WHERE
+            RESERVED = "Y"
     </select>
 
 </mapper>

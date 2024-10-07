@@ -38,6 +38,7 @@ function customerMod() {
     let patList = [];
     let pat = {};
     let cards = document.querySelectorAll('.pat-info');
+    console.log(cards);
     cards.forEach(card => {
         let ppat = card.querySelector('input[name="pat"]').value;
         let species = card.querySelector('input[name="species"]').value;
@@ -56,7 +57,6 @@ function customerMod() {
         pat = {};
     });
     console.log(patList);
-    console.log(obj);
     let data = new FormData();
     data.append( 'vo', new Blob( [ JSON.stringify( obj ) ], { type: 'application/json' } ) );
     data.append( 'patList', new Blob( [ JSON.stringify( patList ) ], { type: 'application/json' } ) );
@@ -106,15 +106,15 @@ function makeCard() {
 
 function make(petObj, imgNum) {
     let img = imgNum === 0 ?
-        '<img src="..." className="img-fluid rounded-start" alt="..." style="max-width: 100px;">' :
-        `<img src="/image/${imgNum}" className="img-fluid rounded-start" alt="..." style="max-width: 100px;">`;
+        '<img src="..." className="img-fluid" alt="..." style="width: 150px; height: 120px; object-fit: cover; border-radius: 10px; margin: 5px 0 5px 4px">' :
+        `<img src="/image/${imgNum}" className="img-fluid" alt="..." style="width: 150px; height: 120px; object-fit: cover; border-radius: 10px; margin: 5px 0 5px 4px">`;
 
     let genderIcon = petObj.gender === 'M' ?
-        `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#007bff" class="bi bi-gender-male me-2" viewBox="0 0 16 16">
+        `<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#007bff" class="bi bi-gender-male me-2" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M9 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M6 4.5h3.293l-3.147 3.146a.5.5 0 1 0 .708.708L10 5.207V8.5a.5.5 0 0 0 1 0V4h-3.5a.5.5 0 0 0 0 1z"/>
         </svg>` :
-        `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FF69B4" class="bi bi-gender-female me-2" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
+        `<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#FF69B4" class="bi bi-gender-female me-2" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8"/>
         </svg>`;
 
     // Creating a new card element with the captured data
@@ -122,16 +122,25 @@ function make(petObj, imgNum) {
     newCard.className = 'card mb-3';
     newCard.style.maxWidth = '540px';
     newCard.innerHTML = `
+        <div class="pat-info" hidden> 
+            <input hidden name="pat" value="">
+            <input hidden name="name" value="${petObj.name}">
+            <input hidden name="species" value="${petObj.species}">
+            <input hidden name="breed" value="${petObj.breed}">
+            <input hidden name="gender" value="${petObj.gender}">
+            <input hidden name="memo" value="${petObj.memo}">
+            <input hidden name="file" value="${imgNum}">
+        </div>
         <div class="card-header">
             <strong>${petObj.species}</strong>
         </div>
         <div class="row g-0">
-            <div class="col-md-4 d-flex justify-content-center align-items-center p-3">
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
                 ${img}
             </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title d-flex align-items-center mb-3">
+            <div class="col-md-6">
+                <div class="card-body" style="padding-left: 0px">
+                    <h5 class="card-title d-flex align-items-center">
                         ${genderIcon}
                         <span>${petObj.name}</span>
                     </h5>

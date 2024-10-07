@@ -51,6 +51,28 @@ window.onload = function () {
     document.querySelector('.btnCard2').addEventListener( 'click', function () {
         transactionMod('sub');
     });
+    document.querySelector('.btnCard3').addEventListener( 'click', function () {
+        let form = document.getElementById('f-reserve');
+        let formData = new FormData(form);
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    alert(xhr.responseText);
+                    location.reload();
+                } else if (xhr.status === 400) {
+                    alert(xhr.responseText);
+                }
+            }
+        };
+        let obj= {};
+        for (let [ key, value ] of formData.entries()) {
+            obj[key] = value;
+        }
+        xhr.open('POST', "/reservation/mod", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(obj));
+    });
 }
 
 
@@ -105,6 +127,40 @@ function findCustomerList(text) {
                         document.getElementById('modal-body' + text + '_2').hidden = false;
                         document.getElementById('customer' + text).value = customer.customer;
                         document.getElementById('name' + text).value = customer.name;
+                        if (text === '3') {
+                            console.log(customer.customer);
+                            fetch('/pat/' + customer.customer + '/list', {
+                                method: 'POST'
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Network response was not ok');
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    let patSelect = document.getElementById('pat');
+                                    patSelect.innerHTML = ''; // 기존 옵션 초기화
+
+                                    if (data.length > 0) {
+                                        data.forEach(function(pat) {
+                                            let option = document.createElement('option');
+                                            option.textContent = pat.name; // 반려동물 이름
+                                            option.value = pat.pat; // pat 값
+                                            patSelect.appendChild(option); // select에 추가
+                                        });
+                                    } else {
+                                        let option = document.createElement('option');
+                                        option.textContent = '등록된 정보가 없습니다.';
+                                        option.disabled = true; // 선택할 수 없는 옵션
+                                        patSelect.appendChild(option);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Fetch error:', error);
+                                    alert('Failed to fetch data');
+                                });
+                        }
                     });
                     customerUl.appendChild(row);
                 });

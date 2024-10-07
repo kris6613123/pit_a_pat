@@ -64,9 +64,25 @@
         CUSTOMER = #{customer}
     </select>
 
-<!--    <select id="getList" resultType="com.pitapat.pitapatPoint.vo.CustomerVO">-->
-<!--        <include refid="select"/>-->
-<!--    </select>-->
+    <select id="getList" resultType="com.pitapat.pitapatPoint.vo.CustomerVO">
+        <include refid="select"/>
+    </select>
+
+    <select id="getVipList" resultType="com.pitapat.pitapatPoint.vo.CustomerVO">
+        SELECT
+            A.CUSTOMER,
+            A.NAME,
+            A.TEL
+        FROM
+            CUSTOMER A
+        LEFT JOIN
+            (SELECT COUNT(*) AS CNT, CUSTOMER
+             FROM TRANSACTION
+             GROUP BY CUSTOMER) B
+        ON A.CUSTOMER = B.CUSTOMER
+        ORDER BY B.CNT DESC
+        LIMIT 10
+    </select>
 
     <select id="getSearchList" resultType="com.pitapat.pitapatPoint.vo.CustomerVO">
         <include refid="select"/>

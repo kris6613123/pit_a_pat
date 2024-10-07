@@ -22,53 +22,52 @@
             ( #{type}, #{action}, #{price}, #{point}, #{customer}, now(), #{memo})
     </insert>
 
-    <!--    <update id="del" parameterType="com.pitapat.pitapatPoint.vo.UserVO">-->
-    <!--        UPDATE-->
-    <!--            USER-->
-    <!--        SET-->
-    <!--            DEL_YN = 'Y'-->
-    <!--        WHERE-->
-    <!--            USER = #{user}-->
-    <!--    </update>-->
-
-    <!--    <select id="getCount" resultType="int">-->
-    <!--        SELECT-->
-    <!--        COUNT(*)-->
-    <!--        FROM-->
-    <!--        USER-->
-    <!--        <if test="keyword != null">-->
-    <!--            WHERE ID LIKE CONCAT('%', #{keyword}, '%')-->
-    <!--        </if>-->
-    <!--    </select>-->
-
     <select id="getItem" resultType="com.pitapat.pitapatPoint.vo.TransactionVO">
         <include refid="select"/>
         WHERE
             CUSTOMER = #{customer}
     </select>
 
-    <!--    <select id="getList" resultType="com.pitapat.pitapatPoint.vo.CustomerVO">-->
-    <!--        <include refid="select"/>-->
-    <!--    </select>-->
-
-    <select id="getSearchList" resultType="com.pitapat.pitapatPoint.vo.TransactionVO">
-        <include refid="select"/>
-        WHERE
-        <if test="keyword != null">
-            NAME LIKE CONCAT('%', #{keyword}, '%')
-            OR
-            TEL LIKE CONCAT('%', #{keyword}, '%')
-        </if>
+    <select id="getList" resultType="com.pitapat.pitapatPoint.vo.TransactionVO">
+        SELECT
+            T.TYPE,
+            T.ACTION,
+            T.PRICE,
+            T.POINT,
+            T.REGDTTM,
+            T.MEMO,
+            C.NAME,
+            C.TEL
+        FROM
+            TRANSACTION T
+        LEFT JOIN
+                CUSTOMER C ON T.CUSTOMER = C.CUSTOMER;
     </select>
 
-    <select id="getPagingList" resultType="com.pitapat.pitapatPoint.vo.TransactionVO">
-        <include refid="select"/>
+    <select id="getAddList" resultType="com.pitapat.pitapatPoint.vo.TransactionVO">
+        SELECT
+            T.POINT,
+            T.REGDTTM
+        FROM
+            TRANSACTION T
         WHERE
-        <if test="keyword != null">
-            ID LIKE CONCAT('%', #{keyword}, '%')
-        </if>
-        LIMIT #{pagenum}, #{contentnum}
+            T.ACTION = '+'
+            AND MONTH(T.REGDTTM) = MONTH(CURRENT_DATE)
+            AND YEAR(T.REGDTTM) = YEAR(CURRENT_DATE)
     </select>
+
+    <select id="getSubList" resultType="com.pitapat.pitapatPoint.vo.TransactionVO">
+        SELECT
+            T.POINT,
+            T.REGDTTM
+        FROM
+            TRANSACTION T
+        WHERE
+            T.ACTION = '-'
+            AND MONTH(T.REGDTTM) = MONTH(CURRENT_DATE)
+            AND YEAR(T.REGDTTM) = YEAR(CURRENT_DATE)
+    </select>
+
 
 </mapper>
 

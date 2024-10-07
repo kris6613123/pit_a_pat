@@ -24,12 +24,12 @@ public class CustomerController extends CtrlBase {
     private final CustomerService customerService;
     private final PatService patService;
 
-//    @RequestMapping( value = { "/list" } )
-//    public String list (Model model, @RequestParam(defaultValue = "1", required = false) Integer pagenum, @RequestParam(defaultValue = "10", required = false) Integer contentnum, @RequestParam(value="customer", required = false ) String keyowrd ) {
-//        customerService.getPagingList( model, pagenum, contentnum, keyowrd );
-//        return "customer/list";
-//    }
-//
+    @RequestMapping( value = { "/customer/list" } )
+    public String list ( Model model ) {
+        model.addAttribute("customerList", customerService.getList());
+        return "customerList";
+    }
+
     @RequestMapping( value = {"/customer/mod", "/customer/{id}/mod"} )
     public String mod( Model model, @PathVariable( value = "id", required = false ) Integer id  ) {
         if (id == null) {
@@ -48,7 +48,6 @@ public class CustomerController extends CtrlBase {
 //    @ResponseBody
     @RequestMapping( value = "/customer/mod/p", method = RequestMethod.POST)
     public ResponseEntity<String> modP( @RequestPart( "vo" ) CustomerVO vo, @RequestPart( "patList" )  List<PatVO> patList ) {
-//        @RequestPart( "vo" ) BranchVO vo, @RequestPart( value = "formFile", required = false ) MultipartFile file
         log.info("customer vo : " + vo);
         log.info("patList : " + patList);
 
@@ -69,28 +68,17 @@ public class CustomerController extends CtrlBase {
     }
 
 
-//
-//    @RequestMapping( value = {"/{id}/del"}, method = RequestMethod.POST )
-//    public ResponseEntity<String> del( @PathVariable( value = "id" ) Integer id ) {
-//        customerService.delete( new CustomerVO( id ) );
-//        gameService.delByCustomer( id );
-//        return new ResponseEntity<>( "성공적으로 삭제되었습니다.", HttpStatus.OK );
-//    }
-
-
-//    @RequestMapping( value = { "/{id}/view" } )
-//    public String view( Model model, @PathVariable( value = "id" ) Integer id, @RequestParam( value="game", required = false ) String keyowrd ) {
-//        model.addAttribute( "tier", stdTierService.getItemByCustomer( id ) );
-//        model.addAttribute( "customer", customerService.getItem( new CustomerVO( id ) ) );
-//        model.addAttribute( "ranking", rankingHistoryService.getItemByCustomer( id ) );
-//        model.addAttribute( "gameList", gameService.getListByCustomer( id, keyowrd ) );
-//        return "customer/view";
-//    }
-
     @ResponseBody
     @RequestMapping( value = {"/customer/{keyword}/list"}, method = RequestMethod.POST  )
     public ResponseEntity<List<CustomerVO>> keywordList(@PathVariable( value = "keyword" ) String keyword ) {
         return new ResponseEntity<>( customerService.getSearchList( keyword ), HttpStatus.OK );
+    }
+
+    @ResponseBody
+    @RequestMapping( value = {"/pat/{customer}/list"}, method = RequestMethod.POST  )
+    public ResponseEntity<List<PatVO>> patList(@PathVariable( value = "customer" ) String customer ) {
+        log.info("customer " + customer + "에 해당하는 pat 찾기");
+        return new ResponseEntity<>( patService.getListByCustomerId( Integer.parseInt(customer) ), HttpStatus.OK );
     }
 
 }

@@ -23,6 +23,8 @@ public interface CustomerDAO {
 
     List<CustomerVO> getList();
 
+    List<CustomerVO> getVipList();
+
     List<CustomerVO> getSearchList( @Param("keyword") String keyword );
 
 

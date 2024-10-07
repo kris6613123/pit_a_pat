@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -22,6 +23,12 @@ public class TransactionController extends CtrlBase{
     private final TransactionService transactionService;
     private final TransTypeService transTypeService;
     private final CustomerService customerService;
+
+    @RequestMapping( value = { "/transaction/list" } )
+    public String list ( Model model ) {
+        model.addAttribute("transactionList", transactionService.getList());
+        return "transactionList";
+    }
 
     @ResponseBody
     @RequestMapping( value = {"/transaction/mod"}, method = RequestMethod.POST )
@@ -38,4 +45,6 @@ public class TransactionController extends CtrlBase{
 
         return new ResponseEntity<>( "성공적으로 등록되었습니다.", HttpStatus.OK );
     }
+
+
 }

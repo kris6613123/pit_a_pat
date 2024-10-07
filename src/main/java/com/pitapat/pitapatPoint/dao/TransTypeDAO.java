@@ -14,4 +14,6 @@ public interface TransTypeDAO {
     TransTypeVO getItemByType( String type );
 
     List<TransTypeVO> getList();
+
+    List<TransTypeVO> getRList();
 }

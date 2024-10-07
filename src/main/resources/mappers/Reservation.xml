@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pitapat.pitapatPoint.dao.ReservationDAO">
+
+    <sql id="select">
+        select
+            (select NAME from CUSTOMER where CUSTOMER.CUSTOMER = RESERVATION.CUSTOMER) AS CUSTOMERNAME,
+            (select TEL from CUSTOMER where CUSTOMER.CUSTOMER = RESERVATION.CUSTOMER) AS TEL,
+            (select NAME from PAT where PAT.PAT = RESERVATION.PAT) AS PATNAME,
+            TYPE,
+            STARTDTTM,
+            ENDDTTM,
+            REGDTTM,
+            MEMO,
+            (CASE
+                WHEN NOW() BETWEEN STARTDTTM AND ENDDTTM THEN 'S'  -- 현재 시간이 예약 기간 내에 있을 경우
+                WHEN STARTDTTM > NOW() THEN 'R'                   -- 현재 시간이 예약 시작 시간보다 빠를 경우
+                WHEN NOW() > ENDDTTM THEN 'E'                     -- 현재 시간이 예약 종료 시간보다 늦을 경우
+            END) AS STATUS
+        from
+            RESERVATION
+    </sql>
+
+    <insert id="add" parameterType="com.pitapat.pitapatPoint.vo.ReservationVO">
+        insert into
+            RESERVATION( CUSTOMER, PAT, TYPE, STARTDTTM, ENDDTTM, REGDTTM, MEMO )
+        values
+            ( #{customer}, #{pat}, #{type}, #{startDttm}, #{endDttm}, NOW(), #{memo})
+    </insert>
+
+    <select id="getList" resultType="com.pitapat.pitapatPoint.vo.ReservationVO">
+        <include refid="select"/>
+    </select>
+
+    <select id="getTodayList" resultType="com.pitapat.pitapatPoint.vo.ReservationVO">
+        <include refid="select"/>
+        where
+            CURDATE() BETWEEN DATE(STARTDTTM) AND DATE(ENDDTTM)
+    </select>
+
+    <select id="getChartList" resultType="com.pitapat.pitapatPoint.vo.ReservationVO">
+        select
+            TYPE,
+            count(*) AS NUM
+        from
+            RESERVATION
+        where
+            MONTH(STARTDTTM) = MONTH(CURRENT_DATE)
+        group by TYPE
+    </select>
+
+
+</mapper>
+

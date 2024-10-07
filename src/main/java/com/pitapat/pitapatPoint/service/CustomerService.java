@@ -40,16 +40,24 @@ public class CustomerService {
     @Transactional
     public boolean modPoint( TransactionVO vo ) {
         CustomerVO customer = getItemById( vo.getCustomer() );
+        log.info("mod point하기 위해 가져온 손님 데이터" + customer);
         if ( vo.getAction() == '-' ) {
             if ( customer.getPoint() - vo.getPoint() < 0 ) {
                 return false;
             }
-            addPoint( vo );
-        }
-        else {
             subPoint( vo );
         }
+        else {
+            addPoint( vo );
+        }
         return true;
+    }
+    public List<CustomerVO> getList() {
+        return customerDAO.getList();
+    }
+
+    public List<CustomerVO> getVipList() {
+        return customerDAO.getVipList();
     }
 
     public List<CustomerVO> getSearchList( String keyword ) {
