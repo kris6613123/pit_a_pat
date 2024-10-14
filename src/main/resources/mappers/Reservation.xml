@@ -49,6 +49,23 @@
         group by TYPE
     </select>
 
+    <select id="getReuseRateList" resultType="com.pitapat.pitapatPoint.vo.ReservationVO">
+        select
+            A.TYPE,
+            (COUNT(DISTINCT CASE WHEN A.CNT > 1 THEN A.CUSTOMER END) * 100.0) / COUNT(DISTINCT A.CUSTOMER) AS RATE
+        from
+            (
+                SELECT
+                    CUSTOMER,
+                    TYPE,
+                    COUNT(*) AS CNT
+                FROM RESERVATION
+                GROUP BY CUSTOMER, TYPE
+            ) A
+        GROUP BY
+            A.TYPE
+    </select>
+
 
 </mapper>
 

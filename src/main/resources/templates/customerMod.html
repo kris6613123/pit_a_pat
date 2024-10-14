@@ -233,11 +233,11 @@
                             <h1 class="h3 mb-4 text-gray-800">고객 정보</h1>
                         </div>
                         <div class="col-6">
-                            <h1 class="h3 mb-4 text-gray-800">반려동물 정보</h1>
+                            <h1 class="h3 mb-4 text-gray-800">&nbsp; 반려동물 정보</h1>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-6" style="padding-right: 30px">
                             <form id="f-customer" class="mb-5">
                                 <input type="hidden" id="customer" name="customer" th:value="${id}">
                                 <div class="mb-4">
@@ -251,7 +251,7 @@
 
                                 <div class="mb-4">
                                     <label class="form-label">메모사항</label>
-                                    <textarea name="memo" class="form-control" th:value="${customer.memo}"rows="3"></textarea>
+                                    <textarea name="memo" class="form-control" th:value="${customer.memo}"rows="5"></textarea>
                                 </div>
                             </form>
                             <div class="row">

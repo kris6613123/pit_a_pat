@@ -13,6 +13,9 @@ public class CustomerVO {
     private LocalDateTime regDttm;
     private String memo;
 
+
+    //none db
+    private String type;
     public CustomerVO() {}
 
     public CustomerVO( Integer customer ) {

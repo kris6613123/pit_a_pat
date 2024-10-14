@@ -20,4 +20,5 @@ public class ReservationVO {
     private String patName;
     private String tel;
     private Integer num;
+    private Integer rate;
 }

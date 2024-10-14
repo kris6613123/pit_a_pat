@@ -11,4 +11,6 @@ public interface ReservationDAO {
     List<ReservationVO> getList();
     List<ReservationVO> getTodayList();
     List<ReservationVO> getChartList();
+
+    List<ReservationVO> getReuseRateList();
 }

@@ -22,6 +22,30 @@
     <link href="/custom/css/index.css" rel="stylesheet">
 
     <script src="../static/js/sb-admin-2.js"></script>
+    <script>
+        function filterVipList() {
+            // 모든 ul 요소를 숨깁니다.
+            var allLists = document.querySelectorAll('.list-group');
+            allLists.forEach(function(list) {
+                list.style.display = 'none';
+            });
+
+            // 선택된 서비스 타입을 가져옵니다.
+            var selectedType = document.getElementById('type').value;
+
+            // 선택된 타입에 맞는 ul 요소를 표시합니다.
+            if (selectedType) {
+                var selectedList = document.getElementById(selectedType + 'List');
+                if (selectedList) {
+                    selectedList.style.display = 'block';
+                }
+            }
+        }
+
+        // 페이지 로드 시 기본으로 첫 번째 리스트를 보여주기 위한 호출
+        document.addEventListener('DOMContentLoaded', filterVipList);
+    </script>
+
 </head>
 
 <body id="page-top">
@@ -110,7 +134,7 @@
 
         <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" href="/chart">
+            <a class="nav-link" href="/chart/list">
                 <i class="fas fa-fw fa-chart-area"></i>
                 <span>수익 보고서</span></a>
         </li>
@@ -211,7 +235,7 @@
                             <!-- Card Header - Dropdown -->
                             <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">이번달 포인트 거래 (일별)</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">포인트 거래 (일별)</h6>
                                 <div class="dropdown no-arrow">
                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -220,10 +244,10 @@
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                          aria-labelledby="dropdownMenuLink">
                                         <div class="dropdown-header">Dropdown Header:</div>
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">이번달</a>
+                                        <a class="dropdown-item" href="#">지난달</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Something else here</a>
+                                        <a class="dropdown-item" href="#">월별</a>
                                     </div>
                                 </div>
                             </div>
@@ -251,10 +275,10 @@
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                          aria-labelledby="dropdownMenuLink">
                                         <div class="dropdown-header">Dropdown Header:</div>
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">이번달</a>
+                                        <a class="dropdown-item" href="#">지난달</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Something else here</a>
+                                        <a class="dropdown-item" href="#">월별</a>
                                     </div>
                                 </div>
                             </div>
@@ -264,6 +288,57 @@
                                     <canvas id="myPieChart"></canvas>
                                 </div>
                                 <div class="mt-4 text-center small" id="pieChartLegend"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Content Row -->
+                <div class="row">
+                    <!-- Content Column -->
+                    <div class="col-lg-6 mb-4">
+                        <!-- Project Card Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">서비스별 재이용률</h6>
+                            </div>
+                            <div class="card-body">
+                                <div th:each="rate : ${reuseRateList}">
+                                    <h4 class="small font-weight-bold">
+                                        <span th:text="${rate.type}"></span>
+                                        <span class="float-right" th:text="${rate.rate} + '%'"></span>
+                                    </h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-success" role="progressbar" th:style="'width: ' + ${rate.rate} + '%'"
+                                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Favorite Customers Card -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">서비스별 단골 손님</h6>
+                            </div>
+                            <div class="card-body" style="padding-top: 0">
+                                <div class="form-group">
+                                    <label for="type"></label>
+                                    <select class="form-control" id="type" name="type" onchange="filterVipList()">
+                                        <!-- 첫 번째 옵션을 기본 선택된 상태로 설정 -->
+                                        <option th:each="transType : ${transTypeList}" th:value="${transType.type}" th:text="${transType.type}"
+                                                th:attr="selected=${transTypeStat.index == 0}"></option>
+                                    </select>
+                                </div>
+
+                                <!-- 서비스별 단골 손님 리스트 -->
+                                <ul class="list-group mb-4" th:each="transType : ${transTypeList}" th:id="${transType.type} + 'List'" th:style="${transTypeStat.index == 0} ? 'display:block;' : 'display:none;'">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center"
+                                        th:each="vip : ${vipList}" th:if="${transType.type == vip.type}" th:text="${vip.name} + ' (' + ${utilsHelper.telFormat(vip.tel)} + ')'">
+                                    </li>
+                                </ul>
+
                             </div>
                         </div>
                     </div>

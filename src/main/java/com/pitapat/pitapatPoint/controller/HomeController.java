@@ -48,7 +48,7 @@ public class HomeController extends CtrlBase {
         return "setting";
     }
 
-    @RequestMapping( value = "/chart" )
+    @RequestMapping( value = "/chart/list" )
     public String chart ( Model model ) {
         log.info(customerService.getVipList() + "");
         model.addAttribute("transTypeList", transTypeService.getList());
@@ -56,6 +56,7 @@ public class HomeController extends CtrlBase {
         model.addAttribute("subList", transactionService.getSubList());
         model.addAttribute("vipList", customerService.getVipList());
         model.addAttribute("reservationList", reservationService.getChartList());
+        model.addAttribute("reuseRateList", reservationService.getReuseRateList());
         return "chartList";
     }
 

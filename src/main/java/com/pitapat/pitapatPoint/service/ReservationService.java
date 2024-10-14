@@ -29,4 +29,8 @@ public class ReservationService {
     public List<ReservationVO> getChartList() {
         return reservationDAO.getChartList();
     }
+
+    public List<ReservationVO> getReuseRateList() {
+        return reservationDAO.getReuseRateList();
+    }
 }

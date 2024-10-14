@@ -72,16 +72,17 @@
         SELECT
             A.CUSTOMER,
             A.NAME,
-            A.TEL
+            A.TEL,
+            B.TYPE
         FROM
             CUSTOMER A
-        LEFT JOIN
-            (SELECT COUNT(*) AS CNT, CUSTOMER
-             FROM TRANSACTION
-             GROUP BY CUSTOMER) B
+        INNER JOIN
+            (SELECT COUNT(*) AS CNT, CUSTOMER, TYPE
+             FROM RESERVATION
+             GROUP BY CUSTOMER, TYPE) B
         ON A.CUSTOMER = B.CUSTOMER
         ORDER BY B.CNT DESC
-        LIMIT 10
+        LIMIT 5
     </select>
 
     <select id="getSearchList" resultType="com.pitapat.pitapatPoint.vo.CustomerVO">
