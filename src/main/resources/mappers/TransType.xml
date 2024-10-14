@@ -32,12 +32,16 @@
 
     <select id="getList" resultType="com.pitapat.pitapatPoint.vo.TransTypeVO">
         <include refid="select"/>
+        ORDER BY
+            TYPE DESC
     </select>
 
     <select id="getRList" resultType="com.pitapat.pitapatPoint.vo.TransTypeVO">
         <include refid="select"/>
         WHERE
-            RESERVED = "Y"
+            RESERVED = 'Y'
+        ORDER BY
+            TYPE DESC
     </select>
 
 </mapper>

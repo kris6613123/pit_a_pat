@@ -190,11 +190,6 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">고객정보 목록</h1>
-                    <!-- Page Heading -->
-<!--                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>-->
-<!--                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.-->
-<!--                        For more information about DataTables, please visit the <a target="_blank"-->
-<!--                                                                                   href="https://datatables.net">official DataTables documentation</a>.</p>-->
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -206,6 +201,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                     <tr>
+                                        <th hidden></th>
                                         <th>이름</th>
                                         <th>전화번호</th>
                                         <th>포인트</th>
@@ -215,6 +211,7 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="customer : ${customerList}">
+                                        <td hidden th:text="${customer.customer}"></td>
                                         <td><a th:text="${customer.name}" th:href="'/customer/' + ${customer.customer} + '/mod'"></a></td>
                                         <td th:text="${utilsHelper.telFormat(customer.tel)}"></td>
                                         <td th:text="${customer.point}"></td>

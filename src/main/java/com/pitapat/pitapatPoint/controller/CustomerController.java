@@ -48,8 +48,6 @@ public class CustomerController extends CtrlBase {
 //    @ResponseBody
     @RequestMapping( value = "/customer/mod/p", method = RequestMethod.POST)
     public ResponseEntity<String> modP( @RequestPart( "vo" ) CustomerVO vo, @RequestPart( "patList" )  List<PatVO> patList ) {
-        log.info("customer vo : " + vo);
-        log.info("patList : " + patList);
 
         if ( vo.getCustomer() == null ) {
             customerService.add(vo);
@@ -77,7 +75,6 @@ public class CustomerController extends CtrlBase {
     @ResponseBody
     @RequestMapping( value = {"/pat/{customer}/list"}, method = RequestMethod.POST  )
     public ResponseEntity<List<PatVO>> patList(@PathVariable( value = "customer" ) String customer ) {
-        log.info("customer " + customer + "에 해당하는 pat 찾기");
         return new ResponseEntity<>( patService.getListByCustomerId( Integer.parseInt(customer) ), HttpStatus.OK );
     }
 

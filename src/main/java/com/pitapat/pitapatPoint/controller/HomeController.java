@@ -66,6 +66,7 @@ public class HomeController extends CtrlBase {
     public String index ( Model model ) {
         model.addAttribute("name", ( (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal() ).getUsername());
         model.addAttribute("transTypeList", transTypeService.getList());
+        model.addAttribute("transTypeRList", transTypeService.getRList());
         model.addAttribute("addList", transactionService.getAddList());
         model.addAttribute("subList", transactionService.getSubList());
         model.addAttribute("reservationList", reservationService.getChartList());

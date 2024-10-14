@@ -327,7 +327,7 @@
                                     <label for="type"></label>
                                     <select class="form-control" id="type" name="type" onchange="filterVipList()">
                                         <!-- 첫 번째 옵션을 기본 선택된 상태로 설정 -->
-                                        <option th:each="transType : ${transTypeList}" th:value="${transType.type}" th:text="${transType.type}"
+                                        <option th:each="transType : ${transTypeRList}" th:value="${transType.type}" th:text="${transType.type}"
                                                 th:attr="selected=${transTypeStat.index == 0}"></option>
                                     </select>
                                 </div>
