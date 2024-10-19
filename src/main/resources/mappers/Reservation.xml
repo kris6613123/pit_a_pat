@@ -30,12 +30,16 @@
 
     <select id="getList" resultType="com.pitapat.pitapatPoint.vo.ReservationVO">
         <include refid="select"/>
+        ORDER BY
+            REGDTTM DESC
     </select>
 
     <select id="getTodayList" resultType="com.pitapat.pitapatPoint.vo.ReservationVO">
         <include refid="select"/>
-        where
+        WHERE
             CURDATE() BETWEEN DATE(STARTDTTM) AND DATE(ENDDTTM)
+        ORDER BY
+            STARTDTTM
     </select>
 
     <select id="getChartList" resultType="com.pitapat.pitapatPoint.vo.ReservationVO">

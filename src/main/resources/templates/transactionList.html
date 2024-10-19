@@ -26,7 +26,6 @@
 <body id="page-top">
 
 <!-- Page Wrapper -->
-<!-- Page Wrapper -->
 <div id="wrapper">
 
     <!-- Sidebar -->
@@ -201,24 +200,26 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
+                                    <th hidden></th>
+                                    <th>발생일</th>
                                     <th>이름 (전화번호)</th>
                                     <th>서비스</th>
                                     <th>액션</th>
                                     <th>가격</th>
                                     <th>포인트</th>
-                                    <th>발생일</th>
                                     <th>메모</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="transaction : ${transactionList}">
+                                <tr th:each="transaction, i : ${transactionList}">
+                                    <td hidden th:text="${i}"></td>
+                                    <td th:text="${#temporals.format(transaction.regDttm, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                     <td th:text="${transaction.name} + ' (' + ${utilsHelper.telFormat(transaction.tel)} + ')'"></td>
                                     <td th:text="${transaction.type}"></td>
                                     <td th:if="${transaction.action} == '+'">적립</td>
                                     <td th:if="${transaction.action} == '-'">차감</td>
                                     <td th:text="${utilsHelper.withComma(transaction.price)}"></td>
                                     <td th:text="${utilsHelper.withComma(transaction.point)}"></td>
-                                    <td th:text="${#temporals.format(transaction.regDttm, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                     <td th:text="${transaction.memo}"></td>
                                 </tr>
                                 </tbody>
@@ -264,8 +265,6 @@
         </div>
     </div>
 </div>
-
-
 
 <!-- Bootstrap core JavaScript-->
 <script src="/vendor/jquery/jquery.min.js"></script>

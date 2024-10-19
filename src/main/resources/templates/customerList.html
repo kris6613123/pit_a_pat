@@ -214,7 +214,7 @@
                                         <td hidden th:text="${customer.customer}"></td>
                                         <td><a th:text="${customer.name}" th:href="'/customer/' + ${customer.customer} + '/mod'"></a></td>
                                         <td th:text="${utilsHelper.telFormat(customer.tel)}"></td>
-                                        <td th:text="${customer.point}"></td>
+                                        <td th:text="${utilsHelper.withComma(customer.point)}"></td>
                                         <td th:text="${#temporals.format(customer.regDttm, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                         <td th:text="${customer.memo}"></td>
                                     </tr>
@@ -261,8 +261,6 @@
             </div>
         </div>
     </div>
-
-
 
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>

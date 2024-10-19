@@ -52,6 +52,7 @@ public class HomeController extends CtrlBase {
     public String chart ( Model model ) {
         log.info(customerService.getVipList() + "");
         model.addAttribute("transTypeList", transTypeService.getList());
+        model.addAttribute("transTypeRList", transTypeService.getRList());
         model.addAttribute("addList", transactionService.getAddList());
         model.addAttribute("subList", transactionService.getSubList());
         model.addAttribute("vipList", customerService.getVipList());

@@ -41,7 +41,9 @@
         FROM
             TRANSACTION T
         LEFT JOIN
-                CUSTOMER C ON T.CUSTOMER = C.CUSTOMER;
+                CUSTOMER C ON T.CUSTOMER = C.CUSTOMER
+        ORDER BY
+            T.REGDTTM DESC
     </select>
 
     <select id="getAddList" resultType="com.pitapat.pitapatPoint.vo.TransactionVO">
